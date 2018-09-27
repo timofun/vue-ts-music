@@ -25,7 +25,7 @@ export default class HelloWorld extends Vue {
   @Prop([String, Boolean]) public propC?: string | boolean;
   @Prop() private msg?: string;
   private name: string = 'xiaoli';
-  private modelData: any = 'aaaaa';
+  private modelData!: string;
   private count: number = 0;
   public get allname() {
     return 'computed ' + this.name;

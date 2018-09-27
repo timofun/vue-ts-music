@@ -18,12 +18,7 @@
     "only-arrow-functions": [
       false
     ],
-    "one-line": [
-      true,
-      "check-open-brace",
-      "check-catch",
-      "check-else",
-      "check-whitespace"
-    ]
+    "no-console": false // 不允许使用console对象
+
   }
 }
