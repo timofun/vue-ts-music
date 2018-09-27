@@ -1,0 +1,42 @@
+// 背景图片
+bg-image($url)
+  background-image: url($url + "@2x.png")
+  @media (-webkit-min-device-pixel-ratio: 3),(min-device-pixel-ratio: 3)
+    background-image: url($url + "@3x.png")
+
+// 不换行
+no-wrap()
+  text-overflow: ellipsis
+  overflow: hidden
+  white-space: nowrap
+
+// 扩展点击区域
+extend-click()
+  position: relative
+  &:before
+    content: ''
+    position: absolute
+    top: -10px
+    left: -10px
+    right: -10px
+    bottom: -10px
+
+border-1px()
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+box-shadow()
+  box-shadow 0px 1px 3px #bdbdbf
+
+enter-active()
+  transition: all 0.2s linear
+  transform: translate3d(0, 0, 0)
+
+leave-active()
+  opacity: 0
+  transform: translate3d(100%, 0, 0)
+
+border-bottom-1px()
+  border-bottom: 0.01rem solid #dedede
+
+border-top-1px()
+  border-top: 0.01rem solid #dedede
