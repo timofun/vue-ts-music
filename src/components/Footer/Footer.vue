@@ -29,19 +29,19 @@
 </template>
 
 <script lang='ts'>
-  import {Component, Vue, Watch} from 'vue-property-decorator';
+  import { Component, Vue, Watch } from 'vue-property-decorator';
 
   @Component({
     components: {},
   })
   export default class Footer extends Vue {
-    private currentRouter: string = 'discovery';
+    private currentRouter: string = 'discovery'
 
     @Watch('$route')
     private onRoute(to: any) {
-      console.log(to);
+      console.log(to)
       if (to) {
-        this.currentRouter = to.name;
+        this.currentRouter = to.name
       }
     }
   }

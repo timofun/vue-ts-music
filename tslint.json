@@ -9,8 +9,23 @@
     ]
   },
   "rules": {
-    "quotemark": [true, "single"],
-    "indent": [true, "spaces", 2],
+    "quotemark": [
+      true,
+      "single"
+    ],
+    "indent": [
+      true,
+      "spaces",
+      2
+    ],
+    // 行尾必须有分号
+    "semicolon": false,
+    // 函数名前必须有空格
+    "space-before-function-paren": [
+      true,
+      "asyncArrow"
+    ],
+    "class-name":true, // 类名以大驼峰格式命名
     "interface-name": false,
     "ordered-imports": false,
     "object-literal-sort-keys": false,
@@ -19,6 +34,5 @@
       false
     ],
     "no-console": false // 不允许使用console对象
-
   }
 }
