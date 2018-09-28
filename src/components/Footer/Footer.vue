@@ -56,7 +56,7 @@
     bottom 0
     left 0
     width 100%
-    height 0.9rem
+    height 1rem
     font-size $font-size-medium-x
     .tab-item
       display flex
@@ -68,7 +68,7 @@
         width 0.44rem
         margin-bottom 0.05rem
       .tab-link
-        font-size 0.12rem
+        font-size $font-size-small
       &.router-link-active
         .tab-link
           color: $color-text-them
