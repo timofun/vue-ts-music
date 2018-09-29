@@ -4,7 +4,7 @@
       <div class="search-container">
         <div class="search-box">
           <img src="./images/search.png" alt="">
-          <span>搜索你想听的歌曲吧~</span>
+          <span @click="handleSearch">搜索你想听的歌曲吧~</span>
         </div>
         <div class="play-box">
           <img src="./images/pause.png" alt="">
@@ -21,34 +21,71 @@
         </div>
       </div>
     </div>
+    <div class="slider-wrapper">
+      <div class="slider-content">
+        <slider ref="slider" :imglist="imglist">
+        </slider>
+      </div>
+    </div>
+    <div class="search-cmp" v-if="showSearchCmp">
+      <search-cmp @searchCancel="handleSearchCancel"></search-cmp>
+    </div>
   </div>
 </template>
 
 <script lang='ts'>
-  import {Component, Prop, Vue, Emit} from 'vue-property-decorator';
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
+import { getBanner } from '@/api/discovery.ts';
+import { STATE_OK } from '@/utils/constant.ts'
+import Slider from '@/components/Slider/Slider.vue'
+import SearchCmp from '@/components/Search/Search.vue'
 
-  @Component({
-    components: {},
-  })
-  export default class Discovery extends Vue {
+@Component({
+  components: {
+    Slider,
+    SearchCmp,
+  },
+})
+export default class Discovery extends Vue {
 
-    public get allname() {
-      return 'computed';
-    }
-
-    public created(): void {
-      console.log('created');
-    }
-
-    public mounted(): void {
-      console.log('mounted');
-    }
-
-    @Emit('reset')
-    public resetCount() {
-      return '';
-    }
+  public get allname() {
+    return 'computed';
   }
+  public imglist: any = [];
+  private showSearchCmp: boolean = false;
+
+  public created(): void {
+    console.log('created');
+    this._getBanner()
+  }
+
+  public mounted(): void {
+    console.log('mounted');
+  }
+
+  public handleSearch(): void {
+    this.showSearchCmp = true
+    console.log('跳转搜索页')
+  }
+
+  public handleSearchCancel(): void {
+    this.showSearchCmp = false
+  }
+
+  @Emit('reset')
+  public resetCount() {
+    return '';
+  }
+
+  private _getBanner() {
+    getBanner().then((res) => {
+      if (res.status === STATE_OK) {
+        this.imglist = res.data.banners
+        console.log('res', this.imglist)
+      }
+    })
+  }
+}
 </script>
 
 <!-- Add 'scoped' attribute to limit CSS to this component only -->
@@ -86,7 +123,7 @@
             width: 0.28rem;
             height: 0.28rem;
           span
-            font-size 0.24rem
+            font-size $font-size-small
         .play-box
           position: absolute;
           display: flex;
@@ -95,7 +132,6 @@
           img
             width 0.44rem
             height 0.44rem
-
 
       .tab-container
         display: flex;
@@ -121,4 +157,23 @@
             background-color: $color-theme;
             &.active
               background-color: $color-text-them
+    .slider-wrapper
+      position: relative
+      width: 100%
+      height: 3.66rem
+      margin-top 1.83rem
+      overflow: hidden
+      .slider-content
+        position: absolute
+        top: 0
+        left: 0
+        width: 100%
+        height: 100%
+    .search-cmp
+      position fixed
+      top: 0
+      bottom 1rem
+      width 100%
+      z-index 99
+      background-color $color-theme
 </style>

@@ -25,6 +25,7 @@
       true,
       "asyncArrow"
     ],
+    "no-for-in-array": false,
     "class-name":true, // 类名以大驼峰格式命名
     "interface-name": false,
     "ordered-imports": false,
