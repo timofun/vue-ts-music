@@ -19,7 +19,7 @@ service.interceptors.response.use(
   (response) => response,
   (error) => {
     console.log('err' + error)// for debug
-    return Promise.reject({mes: '网络错误', timeout: 3000})
+    return Promise.reject({mes: '网络错误', timeout: 5000})
   },
 )
 

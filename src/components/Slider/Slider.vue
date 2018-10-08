@@ -99,9 +99,9 @@
     }
 
     private _setSliderWidth(isResize: boolean) {
-      console.log('this.$refs.sliderGroup', this.$refs.sliderGroup.children)
+      // console.log('this.$refs.sliderGroup', this.$refs.sliderGroup.children)
       this.children = this.$refs.sliderGroup.children
-      console.log('width', this.children.length)
+      // console.log('width', this.children.length)
 
       let width = 0
       const sliderWidth = this.$refs.slider.clientWidth
@@ -157,7 +157,7 @@
     }
 
     private _initDots() {
-      console.log(this.children.length)
+      // console.log(this.children.length)
       this.dots = new Array(this.children.length)
     }
 

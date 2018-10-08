@@ -27,6 +27,21 @@
         </slider>
       </div>
     </div>
+    <div class="type-cmp-container">
+      <discovery-type-cmp :imgUrl="privateUrl" text="私人收藏" @handleClickType="_handleClickType"></discovery-type-cmp>
+      <discovery-type-cmp :imgUrl="daily" text="每日推荐"></discovery-type-cmp>
+      <discovery-type-cmp :imgUrl="songlist" text="歌单"></discovery-type-cmp>
+      <discovery-type-cmp :imgUrl="rank" text="排行榜"></discovery-type-cmp>
+    </div>
+    <div class="song-list">
+      <title-type text="推荐歌单"></title-type>
+      <div class="song-list-item">
+        <song-list :songList="recommendSonglist"
+                   v-for="recommendSonglist in recommendSonglists"
+                   :key="recommendSonglist.id">
+        </song-list>
+      </div>
+    </div>
     <div class="search-cmp" v-if="showSearchCmp">
       <search-cmp @searchCancel="handleSearchCancel"></search-cmp>
     </div>
@@ -35,14 +50,24 @@
 
 <script lang='ts'>
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
-import { getBanner } from '@/api/discovery.ts';
+import { getBanner, getPersonalized, getPlaylistHighquality } from '@/api/discovery.ts';
 import { STATE_OK } from '@/utils/constant.ts'
 import Slider from '@/components/Slider/Slider.vue'
+import DiscoveryTypeCmp from './components/Discovery-type.vue'
+import TitleType from '@/components/Title-type/Title-type.vue'
+import SongList from '@/components/Song-list/Song-list.vue'
 import SearchCmp from '@/components/Search/Search.vue'
+import privateUrl from './images/private.png'
+import daily from './images/date.png'
+import songlist from './images/songlist.png'
+import rank from './images/rank.png'
 
 @Component({
   components: {
     Slider,
+    DiscoveryTypeCmp,
+    TitleType,
+    SongList,
     SearchCmp,
   },
 })
@@ -52,11 +77,26 @@ export default class Discovery extends Vue {
     return 'computed';
   }
   public imglist: any = [];
+  public recommendSonglists: any = []
+  public playlistHighqualitys: any = []
   private showSearchCmp: boolean = false;
+  private privateUrl: any;
+  private daily: any;
+  private songlist: any;
+  private rank: any;
+
+  constructor() {
+    super()
+    this.privateUrl = privateUrl
+    this.daily = daily
+    this.songlist = songlist
+    this.rank = rank
+  }
 
   public created(): void {
-    console.log('created');
     this._getBanner()
+    this._getPersonalized()
+    this._getPlaylistHighquality()
   }
 
   public mounted(): void {
@@ -72,6 +112,10 @@ export default class Discovery extends Vue {
     this.showSearchCmp = false
   }
 
+  public _handleClickType(text: any): void {
+    console.log('text', text)
+  }
+
   @Emit('reset')
   public resetCount() {
     return '';
@@ -81,7 +125,22 @@ export default class Discovery extends Vue {
     getBanner().then((res) => {
       if (res.status === STATE_OK) {
         this.imglist = res.data.banners
-        console.log('res', this.imglist)
+      }
+    })
+  }
+
+  private _getPersonalized() {
+    getPersonalized().then((res) => {
+      if (res.status === STATE_OK) {
+        this.recommendSonglists = res.data.result
+      }
+    })
+  }
+
+  private _getPlaylistHighquality() {
+    getPlaylistHighquality().then((res) => {
+      if (res.status === STATE_OK) {
+        this.playlistHighqualitys = res.data.playlists
       }
     })
   }
@@ -169,11 +228,21 @@ export default class Discovery extends Vue {
         left: 0
         width: 100%
         height: 100%
-    .search-cmp
-      position fixed
-      top: 0
-      bottom 1rem
-      width 100%
-      z-index 99
-      background-color $color-theme
+    .type-cmp-container
+      display: flex;
+      margin: 0.6rem 0;
+    .song-list
+      .song-list-item
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding 0 0.06rem
+  .search-cmp
+    position fixed
+    top: 0
+    bottom 1rem
+    width 100%
+    z-index 99
+    background-color $color-theme
+
 </style>
