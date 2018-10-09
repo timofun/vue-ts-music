@@ -4,19 +4,22 @@
       <router-view></router-view>
     </keep-alive>
     <footer-nav></footer-nav>
+    <player></player>
   </div>
 </template>
 <script lang='ts'>
-  import {Component, Vue} from 'vue-property-decorator';
-  import FooterNav from './components/Footer/Footer.vue';
+import {Component, Vue} from 'vue-property-decorator';
+import FooterNav from '@/components/Footer/Footer.vue';
+import Player from '@/views/Player/Player.vue';
 
-  @Component({
-    components: {
-      FooterNav,
-    },
-  })
-  export default class App extends Vue {
-  }
+@Component({
+  components: {
+    FooterNav,
+    Player,
+  },
+})
+export default class App extends Vue {
+}
 </script>
 <style lang='stylus'>
   @import "~common/css/index"

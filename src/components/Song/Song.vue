@@ -20,28 +20,11 @@
   export default class Song extends Vue {
     @Prop({default: {}}) public song: object;
 
-    public get allname() {
-      return 'computed ';
-    }
-
-    public created(): void {
-      console.log('created');
-    }
-
-    public mounted(): void {
-      console.log('mounted');
-    }
-
     @Emit('reset')
     public resetCount() {
       return 'reset';
     }
 
-
-    @Watch('', {immediate: true, deep: true})
-    public onWatch(val: string, oldVal: string) {
-      console.log('watch new modelData=' + val, 'old=', oldVal);
-    }
   }
 </script>
 

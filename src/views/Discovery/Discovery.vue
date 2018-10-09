@@ -114,6 +114,9 @@ export default class Discovery extends Vue {
   private daily: any;
   private songlist: any;
   private rank: any;
+  private $refs: {
+    slider: Slider,
+  }
 
   constructor() {
     super()
@@ -127,6 +130,12 @@ export default class Discovery extends Vue {
     this._getBanner()
     this._getPersonalized()
     this._getPlaylistHighquality()
+  }
+
+  public activated(): void {
+    setTimeout(() => {
+      this.$refs.slider && this.$refs.slider.enable()
+    }, 20)
   }
 
   public mounted(): void {
@@ -150,10 +159,9 @@ export default class Discovery extends Vue {
     this.$router.push({
       path: '/songListDetail',
       query: {
-        i, d,
+        id,
       },
     })
-    console.log(id)
   }
 
   @Emit('reset')

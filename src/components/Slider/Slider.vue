@@ -94,7 +94,16 @@
     private refresh() {
       if (this.slider) {
         this._setSliderWidth(true)
+        this._play()
         this.slider.refresh()
+      }
+    }
+
+    private enable() {
+      if (this.slider) {
+        this._setSliderWidth(true)
+        this._play()
+        this.slider.enable()
       }
     }
 
