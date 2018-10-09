@@ -16,6 +16,11 @@ export default new Router({
       component: Discovery,
     },
     {
+      path: '/songListDetail',
+      name: 'songListDetail',
+      component: () => import('./views/Song-list-detail/Song-list-detail.vue'),
+    },
+    {
       path: '/video',
       name: 'video',
       component: () => import(/* webpackChunkName: "video" */ './views/Video/Video.vue'),

@@ -38,3 +38,18 @@ export function getPlaylistHighquality () {
     },
   })
 }
+
+/**
+ * 获取歌单详情
+ * @param id 歌单id
+ * @returns {AxiosPromise}
+ */
+export function getPlaylistDetail (id: any) {
+  return fetch({
+    method: 'get',
+    url: 'playlist/detail',
+    params: {
+      id,
+    },
+  })
+}

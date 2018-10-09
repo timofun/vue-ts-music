@@ -39,7 +39,6 @@
 
     @Watch('$route')
     private onRoute(to: any) {
-      console.log(to)
       if (to) {
         this.currentRouter = to.name
       }
@@ -58,6 +57,8 @@
     width 100%
     height 1rem
     font-size $font-size-medium-x
+    background-color $color-theme
+    z-index 99
     .tab-item
       display flex
       flex 1

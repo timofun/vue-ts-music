@@ -1,9 +1,9 @@
 <template>
   <div id='app' @touchmove.prevent>
-    <footer-nav></footer-nav>
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
+    <footer-nav></footer-nav>
   </div>
 </template>
 <script lang='ts'>

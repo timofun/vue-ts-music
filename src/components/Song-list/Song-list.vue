@@ -1,46 +1,31 @@
 <template>
-  <div class="song-list-container">
+  <div class="song-list-container" @click="_handleSonglistDetail(id)">
     <div class="pic">
-      <img class="bg" :src="songList.picUrl" alt="">
-      <div class="play-count">
+      <img class="bg" :src="picUrl" alt="">
+      <div class="play-count" v-if="playCount > 0">
         <img src="./images/headphone.png" alt="">
-        <span class="text">{{songList.playCount}}</span>
+        <span class="text">{{playCount}}</span>
       </div>
     </div>
-    <span class="desc">{{songList.name}}</span>
+    <span class="desc">{{name}}</span>
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Prop, Vue, Emit, Watch } from 'vue-property-decorator';
+  import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 
   @Component({
     components: {},
   })
   export default class SongList extends Vue {
-    @Prop({default: {}}) public songList: any
+    @Prop({default: ''}) public id: any
+    @Prop({default: ''}) public picUrl: string
+    @Prop({default: 0}) public playCount: number
+    @Prop({default: ''}) public name: string
 
-    public get allname() {
-      return 'computed ';
-    }
-
-    public created(): void {
-      console.log('created');
-    }
-
-    public mounted(): void {
-      console.log('mounted', this.songList);
-    }
-
-    @Emit('reset')
-    public resetCount() {
-      return 'reset';
-    }
-
-
-    @Watch('', {immediate: true, deep: true})
-    public onWatch(val: string, oldVal: string) {
-      console.log('watch new modelData=' + val, 'old=', oldVal);
+    @Emit('handleSonglistDetail')
+    public _handleSonglistDetail(id: any) {
+      return id;
     }
   }
 </script>

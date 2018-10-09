@@ -21,37 +21,66 @@
         </div>
       </div>
     </div>
-    <div class="slider-wrapper">
-      <div class="slider-content">
-        <slider ref="slider" :imglist="imglist">
-        </slider>
-      </div>
-    </div>
-    <div class="type-cmp-container">
-      <discovery-type-cmp :imgUrl="privateUrl" text="私人收藏" @handleClickType="_handleClickType"></discovery-type-cmp>
-      <discovery-type-cmp :imgUrl="daily" text="每日推荐"></discovery-type-cmp>
-      <discovery-type-cmp :imgUrl="songlist" text="歌单"></discovery-type-cmp>
-      <discovery-type-cmp :imgUrl="rank" text="排行榜"></discovery-type-cmp>
-    </div>
-    <div class="song-list">
-      <title-type text="推荐歌单"></title-type>
-      <div class="song-list-item">
-        <song-list :songList="recommendSonglist"
-                   v-for="recommendSonglist in recommendSonglists"
-                   :key="recommendSonglist.id">
-        </song-list>
-      </div>
+    <div class="scroll-wrapper">
+      <scroll :data="recommendSonglists" class="scroll">
+        <div>
+          <div class="slider-wrapper">
+            <div class="slider-content">
+              <slider ref="slider" :imglist="imglist">
+              </slider>
+            </div>
+          </div>
+          <div class="type-cmp-container">
+            <discovery-type-cmp :imgUrl="privateUrl" text="私人收藏" @handleClickType="_handleClickType"></discovery-type-cmp>
+            <discovery-type-cmp :imgUrl="daily" text="每日推荐"></discovery-type-cmp>
+            <discovery-type-cmp :imgUrl="songlist" text="歌单"></discovery-type-cmp>
+            <discovery-type-cmp :imgUrl="rank" text="排行榜"></discovery-type-cmp>
+          </div>
+          <div class="song-list">
+            <title-type text="推荐歌单"></title-type>
+            <div class="song-list-item">
+              <song-list :songList="recommendSonglists"
+                         v-for="recommendSonglist in recommendSonglists"
+                         :key="recommendSonglist.id"
+                         :id="recommendSonglist.id"
+                         :picUrl="recommendSonglist.picUrl"
+                         :playCount="recommendSonglist.playCount"
+                         :name="recommendSonglist.name"
+                         @handleSonglistDetail="_handleSonglistDetail"
+              >
+              </song-list>
+            </div>
+          </div>
+          <div class="song-list">
+            <title-type text="精品歌单"></title-type>
+            <div class="song-list-item">
+              <song-list :songList="playlistHighqualitys"
+                         v-for="playlistHighquality in playlistHighqualitys"
+                         :key="playlistHighquality.id"
+                         :id="playlistHighquality.id"
+                         :picUrl="playlistHighquality.coverImgUrl"
+                         playCount="0"
+                         :name="playlistHighquality.name"
+                         @handleSonglistDetail="_handleSonglistDetail"
+              >
+              </song-list>
+            </div>
+          </div>
+        </div>
+      </scroll>
     </div>
     <div class="search-cmp" v-if="showSearchCmp">
       <search-cmp @searchCancel="handleSearchCancel"></search-cmp>
     </div>
+    <router-view></router-view>
   </div>
 </template>
 
 <script lang='ts'>
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
-import { getBanner, getPersonalized, getPlaylistHighquality } from '@/api/discovery.ts';
+import { getBanner, getPersonalized, getPlaylistHighquality } from '@/api/api.ts';
 import { STATE_OK } from '@/utils/constant.ts'
+import Scroll from '@/components/Scroll/Scroll.vue'
 import Slider from '@/components/Slider/Slider.vue'
 import DiscoveryTypeCmp from './components/Discovery-type.vue'
 import TitleType from '@/components/Title-type/Title-type.vue'
@@ -64,6 +93,7 @@ import rank from './images/rank.png'
 
 @Component({
   components: {
+    Scroll,
     Slider,
     DiscoveryTypeCmp,
     TitleType,
@@ -116,6 +146,16 @@ export default class Discovery extends Vue {
     console.log('text', text)
   }
 
+  public _handleSonglistDetail (id: any): void {
+    this.$router.push({
+      path: '/songListDetail',
+      query: {
+        i, d,
+      },
+    })
+    console.log(id)
+  }
+
   @Emit('reset')
   public resetCount() {
     return '';
@@ -160,6 +200,7 @@ export default class Discovery extends Vue {
       top: 0;
       width: 100%;
       z-index: 99;
+      background-color $color-theme
       .search-container
         display: flex;
         height: 1rem;
@@ -216,27 +257,34 @@ export default class Discovery extends Vue {
             background-color: $color-theme;
             &.active
               background-color: $color-text-them
-    .slider-wrapper
-      position: relative
-      width: 100%
-      height: 3.66rem
-      margin-top 1.83rem
-      overflow: hidden
-      .slider-content
-        position: absolute
-        top: 0
-        left: 0
-        width: 100%
-        height: 100%
-    .type-cmp-container
-      display: flex;
-      margin: 0.6rem 0;
-    .song-list
-      .song-list-item
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        padding 0 0.06rem
+    .scroll-wrapper
+      position fixed
+      top: 1.83rem
+      bottom 1rem
+      width 100%
+      .scroll
+        height 100%
+        .slider-wrapper
+          position: relative
+          width: 100%
+          height: 3.66rem
+          margin-bottom 0.6rem
+          overflow: hidden
+          .slider-content
+            position: absolute
+            top: 0
+            left: 0
+            width: 100%
+            height: 100%
+        .type-cmp-container
+          display: flex;
+          margin-bottom: 0.6rem;
+        .song-list
+          .song-list-item
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            padding 0 0.06rem
   .search-cmp
     position fixed
     top: 0
