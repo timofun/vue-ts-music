@@ -90,6 +90,7 @@ import privateUrl from './images/private.png'
 import daily from './images/date.png'
 import songlist from './images/songlist.png'
 import rank from './images/rank.png'
+import { Mutation, State, Action } from 'vuex-class';
 
 @Component({
   components: {
@@ -102,6 +103,9 @@ import rank from './images/rank.png'
   },
 })
 export default class Discovery extends Vue {
+  @Mutation('SET_PLAYING_STATE') public setPlayingState: (bool) => void
+  @State public player: boolean;
+  @Action('SET_PLAYING_STATE') public actionPlayingState: (bool) => void
 
   public get allname() {
     return 'computed';
@@ -139,7 +143,10 @@ export default class Discovery extends Vue {
   }
 
   public mounted(): void {
-    console.log('mounted');
+    console.log('mounted', this.player);
+    this.setPlayingState(true)
+    this.actionPlayingState(false)
+    console.log('end', this.player);
   }
 
   public handleSearch(): void {
